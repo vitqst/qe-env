@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  quantum-espresso:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quantum-espresso-env
+    container_name: quantum-espresso-container
+    volumes:
+      - ./data:/src/data
+      - ./code:/src/code
+    ports:
+      # For Jupyter Lab/Notebook
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    # Keep the container running
+    tty: true
+    stdin_open: true
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+
+volumes:
+  data:
+  code:
